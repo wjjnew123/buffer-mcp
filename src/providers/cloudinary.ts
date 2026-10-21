@@ -296,6 +296,7 @@ export class CloudinaryProvider implements MediaProvider {
     const resourceType: ResourceType = options.resourceType ?? "image";
     const maxResults = Math.min(500, Math.max(1, Math.trunc(options.maxResults ?? 20)));
     const params = new URLSearchParams();
+    params.set("type", options.type ?? "upload");
     params.set("max_results", String(maxResults));
     if (options.nextCursor) params.set("next_cursor", options.nextCursor);
     if (options.prefix) params.set("prefix", options.prefix);
