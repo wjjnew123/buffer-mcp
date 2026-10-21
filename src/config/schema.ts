@@ -13,6 +13,7 @@ const httpSchema = z
     maxBodyBytes: z.number().int().positive().default(1_048_576),
     trustProxy: z.boolean().default(false),
     allowedIps: z.array(z.string()).default([]),
+    stateless: z.boolean().default(false),
     rateLimit: z
       .object({
         enabled: z.boolean().default(true),
