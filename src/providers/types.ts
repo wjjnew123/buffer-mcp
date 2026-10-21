@@ -1,5 +1,6 @@
 export type ResourceType = "image" | "video" | "raw";
 export type UploadResourceHint = "auto" | "image" | "video";
+export type AssetType = "upload" | "private" | "authenticated" | "fetch";
 
 export interface UploadSource {
   path?: string;
@@ -35,6 +36,7 @@ export interface LinkOptions {
 
 export interface ListAssetsOptions {
   resourceType?: ResourceType;
+  type?: AssetType;
   maxResults?: number;
   nextCursor?: string;
   prefix?: string;
