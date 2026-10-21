@@ -1,0 +1,38 @@
+{
+  "name": "buffer-mcp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MCP server for publishing media posts to Buffer (Facebook, Instagram, YouTube, ...) with built-in Cloudinary upload.",
+  "type": "module",
+  "bin": {
+    "buffer-mcp": "dist/index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "dist",
+    "schema",
+    "buffer-mcp.config.example.json",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "schema": "tsx scripts/gen-schema.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.1",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.9",
+    "zod-to-json-schema": "^3.25.2"
+  }
+}
