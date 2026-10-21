@@ -265,6 +265,7 @@ Call-level override: pass `metadata: { "youtube": { "privacy": "unlisted" } }` t
 | `http.corsOrigins` | string[] | `[]` | Allowed `Origin` values; `["*"]` allows all. Empty means no CORS headers for browsers. |
 | `http.sessionTtlMs` | int > 0 | `1800000` | Idle lifetime of an HTTP session (30 min) before it is swept. |
 | `http.allowWrites` | boolean | `false` | Allow write tools over HTTP. Loopback stdio is unaffected. |
+| `http.stateless` | boolean | `false` | Stateless mode: no `Mcp-Session-Id`, no session validation; each request gets a fresh server/transport. Use for SaaS/restart-prone deployments. |
 | `http.maxBodyBytes` | int > 0 | `1048576` | Maximum request body size (1 MB). |
 | `http.trustProxy` | boolean | `false` | Honour `X-Forwarded-For` for client IP; enable only behind a trusted proxy. |
 | `http.allowedIps` | string[] | `[]` | IP / CIDR allowlist (e.g. `"203.0.113.0/24"`). Empty allows all. |
@@ -296,6 +297,7 @@ Call-level override: pass `metadata: { "youtube": { "privacy": "unlisted" } }` t
 | `MCP_HTTP_PORT` | `transport.http.port` |
 | `MCP_HTTP_TOKEN` | `transport.http.authToken` (name comes from `http.authTokenEnv`) |
 | `MCP_HTTP_ALLOW_WRITES` | `transport.http.allowWrites` |
+| `MCP_HTTP_STATELESS` | `transport.http.stateless` |
 | `BUFFER_MCP_CONFIG` | config file path |
 | `BUFFER_MCP_LOG_LEVEL` | `logging.level` |
 | `BUFFER_MCP_AUDIT_FILE` | `logging.auditFile` |
