@@ -217,12 +217,16 @@ export function registerMediaTools(server: McpServer, ctx: ToolContext): void {
     {
       title: "List Cloudinary assets",
       description:
-        "List assets in the Cloudinary media library via the Admin API (read-only, no confirm token). Supports resource type, pagination cursor, public_id prefix and tags filters; returns next_cursor for the next page.",
+        "List assets in the Cloudinary media library via the Admin API (read-only, no confirm token). Supports resource type, asset type (upload/private/authenticated/fetch), pagination cursor, public_id prefix and tags filters; returns next_cursor for the next page.",
       inputSchema: {
         resourceType: z
           .enum(["image", "video", "raw"])
           .optional()
           .describe("Resource type to list (default image)."),
+        type: z
+          .enum(["upload", "private", "authenticated", "fetch"])
+          .optional()
+          .describe("Cloudinary asset type (default upload). Required by Cloudinary when using prefix."),
         maxResults: z
           .number()
           .int()
@@ -243,7 +247,7 @@ export function registerMediaTools(server: McpServer, ctx: ToolContext): void {
       },
       annotations: { readOnlyHint: true, openWorldHint: true },
     },
-    async ({ resourceType, maxResults, nextCursor, prefix, tags, direction }) => {
+    async ({ resourceType, type, maxResults, nextCursor, prefix, tags, direction }) => {
       try {
         const provider = requireProvider(ctx);
         if (!provider.isConfigured()) {
@@ -261,6 +265,7 @@ export function registerMediaTools(server: McpServer, ctx: ToolContext): void {
         return ok(
           await provider.listAssets({
             resourceType,
+            type,
             maxResults,
             nextCursor,
             prefix,
