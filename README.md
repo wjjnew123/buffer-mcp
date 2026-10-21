@@ -1,6 +1,6 @@
 # buffer-mcp — Buffer 社媒发布 MCP 服务器
 
-通过 Buffer 统一发布/排期到 **Facebook、Instagram、YouTube** 等渠道，内置 **Cloudinary** 媒体上传与校验，共 **23 个工具**。帮助运营与办公场景实现 **AI 自动化**（内容排期、批量发布、媒体处理与数据分析）。
+通过 Buffer 统一发布/排期到 **Facebook、Instagram、YouTube** 等渠道，内置 **Cloudinary** 媒体上传与校验，共 **24 个工具**。帮助运营与办公场景实现 **AI 自动化**（内容排期、批量发布、媒体处理与数据分析）。
 
 - 远程端点：`https://mcpweb.wjjnew.cn/buffer-mcp/mcp`（Streamable HTTP）
 - 鉴权：`Authorization: Bearer mcp_sk_xxx`（在 https://mcpweb.wjjnew.cn/ 注册获取）
@@ -30,14 +30,14 @@
 }
 ```
 
-## 工具清单（23）
+## 工具清单（24）
 
 | 分组 | 工具 |
 |---|---|
 | 配置（3） | `buffer_get_config` `buffer_set_config` `buffer_reset_config` |
 | 渠道（3） | `buffer_list_organizations` `buffer_list_channels` `buffer_get_channel` |
 | 帖子（5） | `buffer_list_posts` `buffer_get_post` `buffer_create_post` `buffer_update_post` `buffer_delete_post` |
-| 媒体（7） | `cloudinary_upload` `cloudinary_upload_batch` `cloudinary_link` `cloudinary_variants` `cloudinary_delete` `media_probe` `media_preflight` |
+| 媒体（8） | `cloudinary_upload` `cloudinary_upload_batch` `cloudinary_link` `cloudinary_variants` `cloudinary_list_assets` `cloudinary_delete` `media_probe` `media_preflight` |
 | 分析（5） | `buffer_list_daily_limits` `buffer_get_analytics` `buffer_list_ideas` `buffer_list_idea_groups` `buffer_create_idea` |
 
 ### 写操作确认
