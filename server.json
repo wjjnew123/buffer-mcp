@@ -1,7 +1,7 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
   "name": "io.github.wjjnew123/buffer-mcp",
-  "description": "Buffer 社媒发布：Facebook / Instagram / YouTube 发布与排期，内置 Cloudinary 上传，23 个工具；帮助运营办公 AI 自动化。",
+  "description": "Buffer 社媒发布：Facebook / Instagram / YouTube 发布与排期，内置 Cloudinary 上传与素材库列表，24 个工具；帮助运营办公 AI 自动化。",
   "version": "1.0.0",
   "repository": { "url": "https://github.com/wjjnew123/buffer-mcp", "source": "github" },
   "remotes": [
