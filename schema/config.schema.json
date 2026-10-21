@@ -1,0 +1,387 @@
+{
+  "$ref": "#/definitions/BufferMcpConfig",
+  "definitions": {
+    "BufferMcpConfig": {
+      "type": "object",
+      "properties": {
+        "buffer": {
+          "type": "object",
+          "properties": {
+            "apiUrl": {
+              "type": "string",
+              "format": "uri",
+              "default": "https://api.buffer.com"
+            },
+            "apiKey": {
+              "type": "string",
+              "default": ""
+            },
+            "apiKeyEnv": {
+              "type": "string",
+              "default": "BUFFER_API_KEY"
+            },
+            "timeoutMs": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "default": 30000
+            },
+            "retries": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 5,
+              "default": 2
+            },
+            "retryDelayMs": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 500
+            },
+            "organizationId": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            },
+            "defaultChannelIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": []
+            }
+          },
+          "additionalProperties": false,
+          "default": {}
+        },
+        "scheduling": {
+          "type": "object",
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": [
+                "addToQueue",
+                "shareNext",
+                "shareNow",
+                "customScheduled"
+              ],
+              "default": "addToQueue"
+            },
+            "schedulingType": {
+              "type": "string",
+              "enum": [
+                "automatic",
+                "notification"
+              ],
+              "default": "automatic"
+            },
+            "needsApproval": {
+              "type": "boolean",
+              "default": false
+            },
+            "timezone": {
+              "type": "string",
+              "default": "Asia/Shanghai"
+            }
+          },
+          "additionalProperties": false,
+          "default": {}
+        },
+        "platforms": {
+          "type": "object",
+          "properties": {
+            "facebook": {
+              "type": "object",
+              "additionalProperties": {},
+              "default": {
+                "type": "post"
+              }
+            },
+            "instagram": {
+              "type": "object",
+              "additionalProperties": {},
+              "default": {
+                "type": "post",
+                "shouldShareToFeed": true
+              }
+            },
+            "youtube": {
+              "type": "object",
+              "additionalProperties": {},
+              "default": {
+                "privacy": "public",
+                "categoryId": "2",
+                "madeForKids": false,
+                "notifySubscribers": true,
+                "license": "youtube"
+              }
+            }
+          },
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": {}
+          },
+          "default": {}
+        },
+        "cloudinary": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "provider": {
+              "type": "string",
+              "enum": [
+                "cloudinary"
+              ],
+              "default": "cloudinary"
+            },
+            "cloudName": {
+              "type": "string",
+              "default": ""
+            },
+            "apiKey": {
+              "type": "string",
+              "default": ""
+            },
+            "apiSecret": {
+              "type": "string",
+              "default": ""
+            },
+            "urlEnv": {
+              "type": "string",
+              "default": "CLOUDINARY_URL"
+            },
+            "folder": {
+              "type": "string",
+              "default": "buffer"
+            },
+            "resourceType": {
+              "type": "string",
+              "enum": [
+                "auto",
+                "image",
+                "video"
+              ],
+              "default": "auto"
+            },
+            "overwrite": {
+              "type": "boolean",
+              "default": false
+            },
+            "chunkThresholdMb": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "default": 100
+            },
+            "returnVariants": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          "additionalProperties": false,
+          "default": {}
+        },
+        "media": {
+          "type": "object",
+          "properties": {
+            "requireHttps": {
+              "type": "boolean",
+              "default": true
+            },
+            "probeTimeoutMs": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "default": 15000
+            },
+            "maxBytes": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "default": 524288000
+            },
+            "blockOnProbeFailure": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          "additionalProperties": false,
+          "default": {}
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "enforceTextLimits": {
+              "type": "boolean",
+              "default": true
+            },
+            "rejectYoutubeHorizontalShort": {
+              "type": "boolean",
+              "default": true
+            },
+            "warnOnly": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "additionalProperties": false,
+          "default": {}
+        },
+        "safety": {
+          "type": "object",
+          "properties": {
+            "allowDestructive": {
+              "type": "boolean",
+              "default": false
+            },
+            "dryRun": {
+              "type": "boolean",
+              "default": false
+            },
+            "requireConfirmToken": {
+              "type": "boolean",
+              "default": true
+            },
+            "allowSecretWrite": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "additionalProperties": false,
+          "default": {}
+        },
+        "logging": {
+          "type": "object",
+          "properties": {
+            "level": {
+              "type": "string",
+              "enum": [
+                "debug",
+                "info",
+                "warn",
+                "error"
+              ],
+              "default": "info"
+            },
+            "redact": {
+              "type": "boolean",
+              "default": true
+            },
+            "auditFile": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "default": null
+            }
+          },
+          "additionalProperties": false,
+          "default": {}
+        },
+        "transport": {
+          "type": "object",
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": [
+                "stdio",
+                "http",
+                "both"
+              ],
+              "default": "stdio"
+            },
+            "http": {
+              "type": "object",
+              "properties": {
+                "host": {
+                  "type": "string",
+                  "default": "127.0.0.1"
+                },
+                "port": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 65535,
+                  "default": 8787
+                },
+                "path": {
+                  "type": "string",
+                  "default": "/mcp"
+                },
+                "authToken": {
+                  "type": "string",
+                  "default": ""
+                },
+                "authTokenEnv": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "default": "MCP_HTTP_TOKEN"
+                },
+                "corsOrigins": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "default": []
+                },
+                "sessionTtlMs": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0,
+                  "default": 1800000
+                },
+                "allowWrites": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "maxBodyBytes": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0,
+                  "default": 1048576
+                },
+                "trustProxy": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "allowedIps": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "default": []
+                },
+                "rateLimit": {
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "type": "boolean",
+                      "default": true
+                    },
+                    "windowMs": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "default": 60000
+                    },
+                    "max": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "default": 120
+                    }
+                  },
+                  "additionalProperties": false,
+                  "default": {}
+                }
+              },
+              "additionalProperties": false,
+              "default": {}
+            }
+          },
+          "additionalProperties": false,
+          "default": {}
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
