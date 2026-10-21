@@ -213,6 +213,68 @@ export function registerMediaTools(server: McpServer, ctx: ToolContext): void {
   );
 
   server.registerTool(
+    "cloudinary_list_assets",
+    {
+      title: "List Cloudinary assets",
+      description:
+        "List assets in the Cloudinary media library via the Admin API (read-only, no confirm token). Supports resource type, pagination cursor, public_id prefix and tags filters; returns next_cursor for the next page.",
+      inputSchema: {
+        resourceType: z
+          .enum(["image", "video", "raw"])
+          .optional()
+          .describe("Resource type to list (default image)."),
+        maxResults: z
+          .number()
+          .int()
+          .min(1)
+          .max(500)
+          .optional()
+          .describe("Page size, 1-500 (default 20)."),
+        nextCursor: z
+          .string()
+          .optional()
+          .describe("next_cursor from a previous response; omit for the first page."),
+        prefix: z.string().optional().describe("Filter by public_id prefix."),
+        tags: z
+          .union([z.string(), z.array(z.string())])
+          .optional()
+          .describe("Filter by tags (comma string or array)."),
+        direction: z.enum(["asc", "desc"]).optional().describe("Sort by created_at."),
+      },
+      annotations: { readOnlyHint: true, openWorldHint: true },
+    },
+    async ({ resourceType, maxResults, nextCursor, prefix, tags, direction }) => {
+      try {
+        const provider = requireProvider(ctx);
+        if (!provider.isConfigured()) {
+          throw new AppError(
+            "Cloudinary is not configured.",
+            "CLOUDINARY_NOT_CONFIGURED",
+            "Set cloudinary.cloudName/apiKey/apiSecret (or CLOUDINARY_URL / CLOUDINARY_* env vars).",
+          );
+        }
+        const tagList = Array.isArray(tags)
+          ? tags
+          : tags
+            ? tags.split(",").map((s) => s.trim()).filter(Boolean)
+            : undefined;
+        return ok(
+          await provider.listAssets({
+            resourceType,
+            maxResults,
+            nextCursor,
+            prefix,
+            tags: tagList,
+            direction,
+          }),
+        );
+      } catch (err) {
+        return fail(err);
+      }
+    },
+  );
+
+  server.registerTool(
     "cloudinary_delete",
     {
       title: "Delete a Cloudinary asset",
