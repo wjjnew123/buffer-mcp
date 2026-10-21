@@ -137,6 +137,7 @@ function envPatch(env: NodeJS.ProcessEnv): Record<string, unknown> {
   if (env.MCP_HTTP_HOST) http.host = env.MCP_HTTP_HOST;
   if (env.MCP_HTTP_PORT) http.port = num(env.MCP_HTTP_PORT);
   if (env.MCP_HTTP_ALLOW_WRITES) http.allowWrites = bool(env.MCP_HTTP_ALLOW_WRITES);
+  if (env.MCP_HTTP_STATELESS) http.stateless = bool(env.MCP_HTTP_STATELESS);
   if (env.MCP_HTTP_TOKEN) http.authToken = env.MCP_HTTP_TOKEN;
   if (Object.keys(http).length) transport.http = http;
   if (Object.keys(transport).length) patch.transport = transport;
