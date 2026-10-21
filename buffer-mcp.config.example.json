@@ -1,0 +1,100 @@
+{
+  "$schema": "./schema/config.schema.json",
+
+  "buffer": {
+    "apiUrl": "https://api.buffer.com",
+    "apiKey": "",
+    "apiKeyEnv": "BUFFER_API_KEY",
+    "timeoutMs": 30000,
+    "retries": 2,
+    "retryDelayMs": 500,
+    "organizationId": null,
+    "defaultChannelIds": []
+  },
+
+  "scheduling": {
+    "mode": "addToQueue",
+    "schedulingType": "automatic",
+    "needsApproval": false,
+    "timezone": "Asia/Shanghai"
+  },
+
+  "platforms": {
+    "facebook": {
+      "type": "post"
+    },
+    "instagram": {
+      "type": "post",
+      "shouldShareToFeed": true
+    },
+    "youtube": {
+      "privacy": "public",
+      "categoryId": "2",
+      "madeForKids": false,
+      "notifySubscribers": true,
+      "license": "youtube"
+    }
+  },
+
+  "cloudinary": {
+    "enabled": true,
+    "provider": "cloudinary",
+    "cloudName": "",
+    "apiKey": "",
+    "apiSecret": "",
+    "urlEnv": "CLOUDINARY_URL",
+    "folder": "buffer",
+    "resourceType": "auto",
+    "overwrite": false,
+    "chunkThresholdMb": 100,
+    "returnVariants": true
+  },
+
+  "media": {
+    "requireHttps": true,
+    "probeTimeoutMs": 15000,
+    "maxBytes": 524288000,
+    "blockOnProbeFailure": true
+  },
+
+  "validation": {
+    "enforceTextLimits": true,
+    "rejectYoutubeHorizontalShort": true,
+    "warnOnly": false
+  },
+
+  "safety": {
+    "allowDestructive": false,
+    "dryRun": false,
+    "requireConfirmToken": true,
+    "allowSecretWrite": false
+  },
+
+  "logging": {
+    "level": "info",
+    "redact": true,
+    "auditFile": null
+  },
+
+  "transport": {
+    "mode": "stdio",
+    "http": {
+      "host": "127.0.0.1",
+      "port": 8787,
+      "path": "/mcp",
+      "authToken": "",
+      "authTokenEnv": "MCP_HTTP_TOKEN",
+      "corsOrigins": [],
+      "sessionTtlMs": 1800000,
+      "allowWrites": false,
+      "maxBodyBytes": 1048576,
+      "trustProxy": false,
+      "allowedIps": [],
+      "rateLimit": {
+        "enabled": true,
+        "windowMs": 60000,
+        "max": 120
+      }
+    }
+  }
+}
