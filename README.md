@@ -51,6 +51,11 @@
 | `cloudinary_upload` / `cloudinary_upload_batch` | `"upload"` | 已配置 Cloudinary |
 | `cloudinary_delete` | `public_id` | 允许修改/删除 |
 
+## 会话与稳定性（HTTP）
+
+- SaaS 托管默认 `MCP_HTTP_STATELESS=true`：不依赖 `Mcp-Session-Id`，服务端重启/会话过期不会出现 `Session not found`；客户端携带旧 session id 会被直接忽略。
+- 本地需要**有状态会话**时保持默认（不设置该变量）即可；此时服务端重启后客户端应重新 `initialize`。
+
 ## 本地运行
 
 ```bash
