@@ -229,6 +229,11 @@ export async function startHttpTransport(
       }
     }
 
+    if (http.stateless && req.method !== "POST") {
+      sendJson(res, 405, { error: "Method not allowed in stateless mode" }, cors);
+      return;
+    }
+
     const sessionIdHeader = req.headers["mcp-session-id"];
     const sessionId = Array.isArray(sessionIdHeader) ? sessionIdHeader[0] : sessionIdHeader;
 
@@ -243,6 +248,22 @@ export async function startHttpTransport(
           { error: err instanceof Error ? err.message : "Invalid body" },
           cors,
         );
+        return;
+      }
+
+      if (http.stateless) {
+        // 无会话模式：每个请求用全新 server/transport，忽略客户端带来的
+        // Mcp-Session-Id。服务端重启/会话过期不会导致 404 Session not found。
+        const statelessServer = options.createServer();
+        const statelessTransport = new StreamableHTTPServerTransport({
+          sessionIdGenerator: undefined,
+        });
+        await statelessServer.connect(statelessTransport);
+        res.on("close", () => {
+          void statelessTransport.close().catch(() => undefined);
+          void statelessServer.close().catch(() => undefined);
+        });
+        await statelessTransport.handleRequest(req, res, body);
         return;
       }
 
