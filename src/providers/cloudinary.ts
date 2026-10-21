@@ -9,6 +9,8 @@ import { AppError } from "../core/errors.js";
 import type { Logger } from "../core/logger.js";
 import type {
   LinkOptions,
+  ListAssetsOptions,
+  ListAssetsResult,
   MediaProvider,
   ProviderCredentials,
   ResourceType,
@@ -287,6 +289,66 @@ export class CloudinaryProvider implements MediaProvider {
       out[name] = this.link(publicId, { resourceType, transformation });
     }
     return out;
+  }
+
+  async listAssets(options: ListAssetsOptions = {}): Promise<ListAssetsResult> {
+    const creds = this.requireCredentials();
+    const resourceType: ResourceType = options.resourceType ?? "image";
+    const maxResults = Math.min(500, Math.max(1, Math.trunc(options.maxResults ?? 20)));
+    const params = new URLSearchParams();
+    params.set("max_results", String(maxResults));
+    if (options.nextCursor) params.set("next_cursor", options.nextCursor);
+    if (options.prefix) params.set("prefix", options.prefix);
+    if (options.tags?.length) params.set("tags", options.tags.join(","));
+    if (options.direction) params.set("direction", options.direction);
+
+    const url = `${API_ROOT}/${encodeURIComponent(creds.cloudName)}/resources/${resourceType}?${params.toString()}`;
+    const basic = Buffer.from(`${creds.apiKey}:${creds.apiSecret}`).toString("base64");
+    const response = await fetch(url, {
+      method: "GET",
+      headers: { Authorization: `Basic ${basic}` },
+    });
+    const text = await response.text();
+    let body: {
+      resources?: Array<Record<string, unknown>>;
+      next_cursor?: string;
+      error?: { message?: string };
+    };
+    try {
+      body = JSON.parse(text) as typeof body;
+    } catch {
+      throw new AppError(
+        `Cloudinary list returned a non-JSON response (HTTP ${response.status}).`,
+        "CLOUDINARY_LIST_FAILED",
+      );
+    }
+    if (!response.ok || body.error) {
+      throw new AppError(
+        `Cloudinary list failed: ${body.error?.message ?? `HTTP ${response.status}`}`,
+        "CLOUDINARY_LIST_FAILED",
+        response.status === 401
+          ? "Check cloudinary.apiKey/apiSecret (Admin API uses the same API key/secret)."
+          : undefined,
+      );
+    }
+    const resources = Array.isArray(body.resources) ? body.resources : [];
+    return {
+      resourceType,
+      count: resources.length,
+      nextCursor: body.next_cursor || undefined,
+      assets: resources.map((r) => ({
+        publicId: String(r.public_id ?? ""),
+        format: r.format ? String(r.format) : undefined,
+        resourceType: (r.resource_type as ResourceType | undefined) ?? resourceType,
+        type: r.type ? String(r.type) : undefined,
+        bytes: typeof r.bytes === "number" ? r.bytes : undefined,
+        width: typeof r.width === "number" ? r.width : undefined,
+        height: typeof r.height === "number" ? r.height : undefined,
+        createdAt: r.created_at ? String(r.created_at) : undefined,
+        url: r.url ? String(r.url) : undefined,
+        secureUrl: r.secure_url ? String(r.secure_url) : undefined,
+      })),
+    };
   }
 
   async remove(publicId: string, resourceType: ResourceType = "image"): Promise<void> {
