@@ -40,6 +40,8 @@
 | 媒体（8） | `cloudinary_upload` `cloudinary_upload_batch` `cloudinary_link` `cloudinary_variants` `cloudinary_list_assets` `cloudinary_delete` `media_probe` `media_preflight` |
 | 分析（5） | `buffer_list_daily_limits` `buffer_get_analytics` `buffer_list_ideas` `buffer_list_idea_groups` `buffer_create_idea` |
 
+> `cloudinary_list_assets` 支持 `resourceType`、`type`（默认 `upload`）、`maxResults`、`nextCursor`、`prefix`、`tags`、`direction`。
+
 ### 写操作确认
 
 | 工具 | `confirm` | 额外要求 |
