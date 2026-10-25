@@ -1,5 +1,7 @@
 # buffer-mcp — Buffer 社媒发布 MCP 服务器
 
+[![在 mcpservers.org 上列出](https://mcpservers.org/badge.svg)](https://mcpservers.org/servers/wjjnew123/buffer-mcp)
+
 通过 Buffer 统一发布/排期到 **Facebook、Instagram、YouTube** 等渠道，内置 **Cloudinary** 媒体上传与校验，共 **24 个工具**。帮助运营与办公场景实现 **AI 自动化**（内容排期、批量发布、媒体处理与数据分析）。
 
 - 远程端点：`https://mcpweb.wjjnew.cn/buffer-mcp/mcp`（Streamable HTTP）
